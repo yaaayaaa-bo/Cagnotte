@@ -57,7 +57,6 @@
             border-radius: 0;
             box-shadow: 8px 8px 0px rgba(255, 0, 255, 0.5);
             transform: rotate(-2deg);
-            display: none;
         }
         
         .audio-btn {
@@ -589,6 +588,11 @@
             });
         });
         
+        // Effets sonores sur les contrôles audio
+        document.querySelectorAll('.audio-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', playHoverSound);
+        });
+        
         // Auto-initialisation du contexte audio après première interaction
         document.addEventListener('click', () => {
             if (!audioContext) {
@@ -609,6 +613,72 @@
             // Le document est déjà chargé
             forceAutoplay();
         }
+        
+        // Mise à jour de l'interface quand la musique démarre automatiquement
+        bgMusic.addEventListener('play', () => {
+            isPlaying = true;
+            document.getElementById('playBtn').classList.add('active');
+            document.getElementById('pauseBtn').classList.remove('active');
+        });
+        
+        bgMusic.addEventListener('pause', () => {
+            isPlaying = false;
+            document.getElementById('playBtn').classList.remove('active');
+            document.getElementById('pauseBtn').classList.add('active');
+        });
+        
+        // Contrôles audio pour le fichier MP3 (réactivés)
+        document.getElementById('playBtn').addEventListener('click', () => {
+            initAudio();
+            if (!isPlaying) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    document.getElementById('playBtn').classList.add('active');
+                    document.getElementById('pauseBtn').classList.remove('active');
+                    playClickSound();
+                }).catch(e => {
+                    console.log('Autoplay bloqué:', e);
+                });
+            }
+        });
+        
+        document.getElementById('pauseBtn').addEventListener('click', () => {
+            if (isPlaying) {
+                bgMusic.pause();
+                isPlaying = false;
+                document.getElementById('playBtn').classList.remove('active');
+                document.getElementById('pauseBtn').classList.add('active');
+                playClickSound();
+            }
+        });
+        
+        document.getElementById('muteBtn').addEventListener('click', () => {
+            isMuted = !isMuted;
+            bgMusic.muted = isMuted;
+            document.getElementById('muteBtn').textContent = isMuted ? '🔇 UNMUTE' : '🔊 MUTE';
+            document.getElementById('muteBtn').classList.toggle('active', isMuted);
+            playClickSound();
+        });
+        
+        document.getElementById('volumeSlider').addEventListener('input', (e) => {
+            if (!isMuted) {
+                bgMusic.volume = e.target.value / 100;
+            }
+        });
+        
+        // Gestion des événements audio
+        bgMusic.addEventListener('ended', () => {
+            // Le loop est géré par l'attribut HTML, mais on peut ajouter une sécurité
+            if (isPlaying) {
+                bgMusic.currentTime = 0;
+                bgMusic.play();
+            }
+        });
+        
+        bgMusic.addEventListener('error', (e) => {
+            console.error('Erreur de lecture audio:', e);
+            document.getElementById('playBtn').textContent = '❌ ERROR';
+        });
     </script>
 </body>
 </html> 
