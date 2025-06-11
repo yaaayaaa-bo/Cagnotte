@@ -49,9 +49,8 @@ Page web au style **Game Boy authentique** pour célébrer les 40 ans des jumeau
 
 ## Liens des Cagnottes
 
-- **Yannick** : https://www.onparticipe.fr/c/hKFVPR8L
-- **Michel** : https://www.onparticipe.fr/c/eWhH3TEv
-
+- **Yannick** :
+- **Michel** : 
 ## Fichiers Audio Requis
 
 - `song1.mp3` : Musique de démarrage (durée ~3s)
