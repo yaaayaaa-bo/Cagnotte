@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎮 CAGNOTTE DES JUMEAUX 🎮</title>
+    <title>🎮 CAGNOTTE 🎮</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         
@@ -16,11 +16,13 @@
         body {
             font-family: 'Press Start 2P', monospace;
             background: #ffffff;
-            overflow: hidden;
+            overflow-x: hidden;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 20px 0;
         }
         
         .gameboy {
@@ -138,7 +140,7 @@
         }
         
         .nintendo-text {
-            font-size: 16px;
+            font-size: 14.4px;
             color: #306230;
             text-align: center;
             animation: slideDown 3s ease-in-out;
@@ -193,7 +195,7 @@
             font-size: 10.8px;
             color: #306230;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             border-bottom: 2px solid #306230;
             padding-bottom: 10px;
         }
@@ -203,7 +205,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 6px;
+            gap: 4px;
         }
         
         .menu-option {
@@ -542,6 +544,26 @@
             }
         }
         
+        /* Texte informatif sous la Game Boy */
+        .info-text {
+            text-align: center;
+            color: #888;
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            margin-top: 20px;
+            max-width: 400px;
+            padding: 0 20px;
+        }
+        
+        @media (max-width: 480px) {
+            .info-text {
+                font-size: 8px;
+                margin-top: 15px;
+                max-width: 300px;
+            }
+        }
+        
         /* Effet scanlines */
         .screen::before {
             content: '';
@@ -582,7 +604,7 @@
                 <!-- Écran d'allumage -->
                 <div class="boot-screen" id="bootScreen">
                     <div class="nintendo-text" id="nintendoText">
-                        CAGNOTTE<br>DES JUMEAUX
+                        CAGNOTTE
                     </div>
                     <div class="copyright">© 1985 EST.</div>
                 </div>
@@ -597,7 +619,7 @@
                         <div class="menu-option" id="optionA" data-link="https://www.onparticipe.fr/c/hKFVPR8L">
                             <div class="button-label">A</div>
                             <div class="option-text">
-                                DONNER À YANNICK
+                                POUR YANNICK
                             </div>
                             <div class="emoji-display">🍺</div>
                         </div>
@@ -605,16 +627,22 @@
                         <div class="menu-option" id="optionB" data-link="https://www.onparticipe.fr/c/eWhH3TEv">
                             <div class="button-label">B</div>
                             <div class="option-text">
-                                DONNER À MICHEL
+                                POUR MICHEL
                             </div>
                             <div class="emoji-display">🚴</div>
+                        </div>
+                        
+                        <div class="menu-option" id="optionC" data-link="https://www.onparticipe.fr/c/IqZkHrZW">
+                            <div class="button-label">✚</div>
+                            <div class="option-text">
+                                POUR LES JUMEAUX
+                            </div>
+                            <div class="emoji-display">🎂</div>
                         </div>
                     </div>
                     
                     <div style="font-size: 6px; color: #306230; text-align: center; margin-top: 20px;">
-                        SI VOUS VOULEZ DONNER AUX DEUX JUMEAUX<br>
-                        SUR UNE SEULE CAISSE C'EST POSSIBLE<br>
-                        INDIQUER LE LORS DE L'ENVOIS
+                        SELECTIONNEZ VOTRE CAGNOTTE
                     </div>
                 </div>
             </div>
@@ -652,6 +680,13 @@
             GAME BOY<br>
             CAGNOTTE EDITION
         </div>
+    </div>
+    
+    <!-- Texte informatif -->
+    <div class="info-text">
+        Cette Game Boy est optimisée pour PC.<br>
+        L'utilisation smartphone est possible mais peut y avoir des bugs graphiques.<br><br>
+        Sélectionnez votre cagnotte en cliquant sur les boutons ou directement sur l'écran vert.
     </div>
     
     <!-- Audio caché -->
@@ -767,6 +802,13 @@
             }, 200);
         });
         
+        document.getElementById('optionC').addEventListener('click', () => {
+            playConfirmSound();
+            setTimeout(() => {
+                window.open('https://www.onparticipe.fr/c/IqZkHrZW', '_blank');
+            }, 200);
+        });
+        
         // Gestion des boutons A et B
         document.getElementById('btnA').addEventListener('click', () => {
             if (currentScreen === 'menu') {
@@ -799,7 +841,49 @@
                     setTimeout(() => {
                         window.open('https://www.onparticipe.fr/c/eWhH3TEv', '_blank');
                     }, 200);
+                } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    playConfirmSound();
+                    setTimeout(() => {
+                        window.open('https://www.onparticipe.fr/c/IqZkHrZW', '_blank');
+                    }, 200);
                 }
+            }
+        });
+        
+        // Gestion des boutons D-pad
+        document.querySelector('.dpad-up').addEventListener('click', () => {
+            if (currentScreen === 'menu') {
+                playConfirmSound();
+                setTimeout(() => {
+                    window.open('https://www.onparticipe.fr/c/IqZkHrZW', '_blank');
+                }, 200);
+            }
+        });
+        
+        document.querySelector('.dpad-down').addEventListener('click', () => {
+            if (currentScreen === 'menu') {
+                playConfirmSound();
+                setTimeout(() => {
+                    window.open('https://www.onparticipe.fr/c/IqZkHrZW', '_blank');
+                }, 200);
+            }
+        });
+        
+        document.querySelector('.dpad-left').addEventListener('click', () => {
+            if (currentScreen === 'menu') {
+                playConfirmSound();
+                setTimeout(() => {
+                    window.open('https://www.onparticipe.fr/c/IqZkHrZW', '_blank');
+                }, 200);
+            }
+        });
+        
+        document.querySelector('.dpad-right').addEventListener('click', () => {
+            if (currentScreen === 'menu') {
+                playConfirmSound();
+                setTimeout(() => {
+                    window.open('https://www.onparticipe.fr/c/IqZkHrZW', '_blank');
+                }, 200);
             }
         });
         
